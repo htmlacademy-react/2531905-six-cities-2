@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from '../components/app/App';
+import App from './components/app/app';
 
-import {offers} from '../data/index';
+import {offers} from './data';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
