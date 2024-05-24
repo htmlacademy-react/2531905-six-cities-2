@@ -98,7 +98,7 @@ function Main({offers}: MainProps): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 {offers.map((card: OfferListItem) => (
-                  <Card key={card.title} {...card} />
+                  <Card key={card.id} {...card} />
                 ))}
               </div>
             </section>
