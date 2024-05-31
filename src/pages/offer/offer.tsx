@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../constants';
+
+import {AppRoute} from '@/constants';
 
 function Offer(): JSX.Element {
   return (

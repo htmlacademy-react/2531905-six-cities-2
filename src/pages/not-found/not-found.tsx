@@ -77,9 +77,9 @@ function NotFound(): JSX.Element {
             <div className={classes.imageWrapper}>
               <img className={classes.image} src="img/404.png" alt="Page not found"/>
             </div>
-            <h1>Запрашиваемая страница не найдена</h1>
+            <h1>Requested page not found</h1>
             <Link to="/">
-              <button className="form__submit button" type="submit">На главную</button>
+              <button className="form__submit button" type="submit">Go to Homepage</button>
             </Link>
           </section>
         </div>

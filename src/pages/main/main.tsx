@@ -1,8 +1,9 @@
-import Card from '../../components/card/card';
-
-import {OfferListItem} from '../../types';
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../constants';
+
+import {OfferListItem} from '@/types';
+import {AppRoute} from '@/constants';
+
+import Card from '@/components/card/card';
 
 type MainProps = {
   offers: OfferListItem[];

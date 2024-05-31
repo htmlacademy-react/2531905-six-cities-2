@@ -1,4 +1,4 @@
-import {OfferListItem} from '../types';
+import {OfferListItem} from '@/types';
 
 const offers: OfferListItem[] = [
   {
