@@ -4,11 +4,16 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '@/constants';
 import {OfferListItem} from '@/types';
 
-function Card({id, price, rating, type, title, isFavorite, isPremium}: OfferListItem): JSX.Element {
+type CardProps = OfferListItem & {
+  mouseEnter: () => void;
+  mouseLeave: () => void;
+}
+
+function Card({id, price, rating, type, title, isFavorite, isPremium, mouseEnter, mouseLeave}: CardProps): JSX.Element {
   const bookmarkClass = clsx('place-card__bookmark-button button', isFavorite && 'place-card__bookmark-button--active');
 
   return (
-    <article className="cities__card place-card">
+    <article onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} className="cities__card place-card">
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
