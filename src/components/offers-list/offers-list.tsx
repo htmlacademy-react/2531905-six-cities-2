@@ -3,6 +3,8 @@ import {useState} from 'react';
 import {OfferListItem} from '@/types';
 
 import Card from '@/components/card/card';
+import OffersListSort from '@/components/offers-list-sort/offers-list-sort';
+import Map from '@/components/map/map';
 
 type OffersListProps = {
   offers: OfferListItem[];
@@ -11,6 +13,9 @@ type OffersListProps = {
 function OffersList({offers}: OffersListProps) {
   const [activeItem, setActiveItem] = useState('');
 
+  const handleMouseEnter = (id: string) => setActiveItem(id);
+  const handleMouseLeave = () => setActiveItem('');
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -18,31 +23,23 @@ function OffersList({offers}: OffersListProps) {
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">312 places to stay in Amsterdam</b>
           <p style={{height: '10px'}}>{activeItem}</p>
-          <form className="places__sorting" action="#" method="get">
-            <span className="places__sorting-caption">Sort by</span>
-            <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-              <svg className="places__sorting-arrow" width="7" height="4">
-                <use xlinkHref="#icon-arrow-select"></use>
-              </svg>
-            </span>
-            <ul className="places__options places__options--custom places__options--opened">
-              <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-              <li className="places__option" tabIndex={0}>Price: low to high</li>
-              <li className="places__option" tabIndex={0}>Price: high to low</li>
-              <li className="places__option" tabIndex={0}>Top rated first</li>
-            </ul>
-          </form>
-          <div className="cities__places-list places__list tabs__content">
+          <OffersListSort />
+          <div className="cities__places-list places__list">
             {
               offers.map((card: OfferListItem) => (
-                <Card key={card.id} {...card} mouseEnter={() => setActiveItem(card.id)} mouseLeave={() => setActiveItem('')}/>
+                <Card
+                  key={card.id}
+                  className="cities"
+                  card={card}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                />
               ))
             }
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"></section>
+          <Map className="cities__map" />
         </div>
       </div>
     </div>

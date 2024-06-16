@@ -17,7 +17,7 @@ export type OfferListItem = {
   previewImage: string;
   city: City;
   location: Location;
-  isFavorite?: boolean;
-  isPremium?: boolean;
+  isFavorite: boolean;
+  isPremium: boolean;
   rating: number;
 }

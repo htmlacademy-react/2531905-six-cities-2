@@ -34,7 +34,7 @@ function App({offers}: AppProps): JSX.Element {
         </PrivateRoute>,
     },
     {
-      path: `${AppRoute.OfferPage}/:id`,
+      path: `${AppRoute.OfferPage}`,
       element: <Offer />,
     },
     {
