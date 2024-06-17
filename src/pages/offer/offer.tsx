@@ -16,7 +16,7 @@ function Offer(): JSX.Element {
 
   useEffect(() =>{
     window.scrollTo(0, 0);
-  });
+  }, [offer]);
 
   return (
     <div className="page">
