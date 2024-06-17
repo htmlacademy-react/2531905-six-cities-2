@@ -15,6 +15,8 @@ type AppProps = {
 }
 
 function App({offers}: AppProps): JSX.Element {
+  const favorites = offers.filter((item) => item.isFavorite);
+
   const router = createBrowserRouter([
     {
       path: AppRoute.MainPage,
@@ -27,12 +29,12 @@ function App({offers}: AppProps): JSX.Element {
     {
       path: AppRoute.FavoritesPage,
       element:
-        <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-          <Favorites />
+        <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+          <Favorites offers={favorites} />
         </PrivateRoute>,
     },
     {
-      path: `${AppRoute.OfferPage}/:id`,
+      path: `${AppRoute.OfferPage}`,
       element: <Offer />,
     },
     {
