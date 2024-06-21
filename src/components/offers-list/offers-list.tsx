@@ -16,12 +16,16 @@ function OffersList({offers}: OffersListProps) {
   const handleMouseEnter = (id: string) => setActiveItem(id);
   const handleMouseLeave = () => setActiveItem('');
 
+  const points = offers.map((item: OfferListItem) => ({...item.location}));
+  const city = offers[0].city;
+  const selectedPoint = offers.find((item) => item.id === activeItem)?.location;
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">312 places to stay in Amsterdam</b>
+          <b className="places__found">{offers.length} places to stay in {city.name}</b>
           <p style={{height: '10px'}}>{activeItem}</p>
           <OffersListSort />
           <div className="cities__places-list places__list">
@@ -39,7 +43,7 @@ function OffersList({offers}: OffersListProps) {
           </div>
         </section>
         <div className="cities__right-section">
-          <Map className="cities__map" />
+          <Map className="cities__map" points={points} city={city} selectedPoint={selectedPoint} />
         </div>
       </div>
     </div>
