@@ -46,7 +46,7 @@ function Map({className, points, city, selectedPoint}: MapProps) {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint
+            selectedPoint && point.id === selectedPoint
               ? currentCustomIcon
               : defaultCustomIcon
           )
