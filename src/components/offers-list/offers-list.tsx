@@ -16,9 +16,8 @@ function OffersList({offers}: OffersListProps) {
   const handleMouseEnter = (id: string) => setActiveItem(id);
   const handleMouseLeave = () => setActiveItem('');
 
-  const points = offers.map((item: OfferListItem) => ({...item.location}));
+  const points = offers.map(({ location, id }: OfferListItem) => ({ location, id}));
   const city = offers[0].city;
-  const selectedPoint = offers.find((item) => item.id === activeItem)?.location;
 
   return (
     <div className="cities">
@@ -43,7 +42,7 @@ function OffersList({offers}: OffersListProps) {
           </div>
         </section>
         <div className="cities__right-section">
-          <Map className="cities__map" points={points} city={city} selectedPoint={selectedPoint} />
+          <Map className="cities__map" points={points} city={city} selectedPoint={activeItem} />
         </div>
       </div>
     </div>

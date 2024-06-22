@@ -7,23 +7,28 @@ import 'leaflet/dist/leaflet.css';
 
 import {Location, City} from '@/types';
 
+type Point = {
+  location: Location;
+  id: string;
+}
+
 type MapProps = {
   className: string;
-  points: Location[];
-  selectedPoint: Location | undefined;
+  points: Point[];
+  selectedPoint?: string;
   city: City;
 }
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
 function Map({className, points, city, selectedPoint}: MapProps) {
@@ -35,13 +40,13 @@ function Map({className, points, city, selectedPoint}: MapProps) {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
-          lat: point.latitude,
-          lng: point.longitude
+          lat: point.location.latitude,
+          lng: point.location.longitude
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.latitude === selectedPoint.latitude && point.longitude === selectedPoint.longitude
+            selectedPoint !== undefined && point.id === selectedPoint
               ? currentCustomIcon
               : defaultCustomIcon
           )
