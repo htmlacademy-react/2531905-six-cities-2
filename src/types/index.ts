@@ -21,3 +21,17 @@ export type OfferListItem = {
   isPremium: boolean;
   rating: number;
 }
+
+export type User = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type ReviewListItem = {
+  id: string;
+  comment: string;
+  date: string;
+  rating: number;
+  user: User;
+}
