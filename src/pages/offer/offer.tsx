@@ -1,18 +1,25 @@
 import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
+import {OfferListItem} from '@/types';
+
 import {offers} from '@/mocks/offers';
+import {reviews} from '@/mocks/reviews.ts';
 import {STARS_COUNT} from '@/constants';
 import CommentForm from '@/components/comment-form/comment-form';
 import Layout from '@/components/layout/layout';
 import Card from '@/components/card/card';
 import PremiumBadge from '@/components/premium-badge/premium-badge';
+import ReviewsList from '@/components/reviews-list/reviews-list';
+import Map from '@/components/map/map';
 
 function Offer(): JSX.Element {
   const params = useParams();
 
-  const offer = offers.find((item) => item.id === params.id);
+  const offer = offers.find((item) => item.id === params.id) as OfferListItem;
   const otherOffers = offers.filter((item) => item.id !== params.id).slice(0,3);
+  const points = otherOffers.map(({ location, id }: OfferListItem) => ({ location, id}));
+  const city = offer.city;
 
   useEffect(() =>{
     window.scrollTo(0, 0);
@@ -149,41 +156,22 @@ function Offer(): JSX.Element {
                       </div>
                     </div>
                     <section className="offer__reviews reviews">
-                      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                      <ul className="reviews__list">
-                        <li className="reviews__item">
-                          <div className="reviews__user user">
-                            <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                              <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54"
-                                height="54"
-                                alt="Reviews avatar"
-                              />
-                            </div>
-                            <span className="reviews__user-name">
-                              Max
-                            </span>
-                          </div>
-                          <div className="reviews__info">
-                            <div className="reviews__rating rating">
-                              <div className="reviews__stars rating__stars">
-                                <span style={{width: '80%'}}></span>
-                                <span className="visually-hidden">Rating</span>
-                              </div>
-                            </div>
-                            <p className="reviews__text">
-                              A quiet cozy and picturesque that hides behind a a river by the unique lightness of
-                              Amsterdam.
-                              The building is green and from 18th century.
-                            </p>
-                            <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                          </div>
-                        </li>
-                      </ul>
+                      <h2 className="reviews__title">
+                        Reviews
+                        {reviews.length && (
+                          <>
+                            &middot; <span className="reviews__amount">{reviews.length}</span>
+                          </>
+                        )}
+                      </h2>
+                      <ReviewsList reviews={reviews} />
                       <CommentForm/>
                     </section>
                   </div>
                 </div>
-                <section className="offer__map map"></section>
+                <div className="container">
+                  <Map className="offer__map" points={points} city={city}/>
+                </div>
               </section>
             )
           }
