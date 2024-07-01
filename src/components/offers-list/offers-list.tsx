@@ -35,16 +35,14 @@ function OffersList() {
 
   const handleMouseEnter = (id: string) => setActiveItem(id);
   const handleMouseLeave = () => setActiveItem('');
+  const handleSortChange = (index: number) => {
+    setActiveSort(index);
+  };
 
   const offers = [...allOffers].sort(sortOptions[activeSort].func);
   const points = offers.map(({ location, id }: OfferListItem) => ({ location, id}));
   const city = useAppSelector((state) => state.currentCity);
-
   const options = sortOptions.map((item) => item.title);
-
-  const handleSortChange = (index: number) => {
-    setActiveSort(index);
-  };
 
   const content = offers.length > 0 ?
     (
