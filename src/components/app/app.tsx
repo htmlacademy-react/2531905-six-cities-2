@@ -20,7 +20,7 @@ function App({offers}: AppProps): JSX.Element {
   const router = createBrowserRouter([
     {
       path: AppRoute.MainPage,
-      element: <Main offers={offers} />,
+      element: <Main />,
     },
     {
       path: AppRoute.LoginPage,
