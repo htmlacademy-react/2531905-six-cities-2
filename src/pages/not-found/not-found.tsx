@@ -1,7 +1,6 @@
 import {Link} from 'react-router-dom';
 
 import Layout from '@/components/layout/layout';
-import Tabs from '@/components/tabs/tabs';
 
 import {AppRoute} from '@/constants';
 import classes from './not-found.module.css';
@@ -11,7 +10,6 @@ function NotFound(): JSX.Element {
     <div className="page page--gray page--main">
       <Layout>
         <main className="page__main page__main--index">
-          <Tabs />
           <div className="container">
             <section className={classes.center}>
               <div className={classes.imageWrapper}>

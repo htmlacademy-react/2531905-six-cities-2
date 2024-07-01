@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import {OfferListItem} from '@/types';
 
 import {offers} from '@/mocks/offers';
-import {reviews} from '@/mocks/reviews.ts';
+import {reviews} from '@/mocks/reviews';
 import {STARS_COUNT} from '@/constants';
 import CommentForm from '@/components/comment-form/comment-form';
 import Layout from '@/components/layout/layout';
@@ -19,7 +19,7 @@ function Offer(): JSX.Element {
   const offer = offers.find((item) => item.id === params.id) as OfferListItem;
   const otherOffers = offers.filter((item) => item.id !== params.id).slice(0,3);
   const points = otherOffers.map(({ location, id }: OfferListItem) => ({ location, id}));
-  const city = offer.city;
+  const city = offer?.city;
 
   useEffect(() =>{
     window.scrollTo(0, 0);
@@ -158,7 +158,7 @@ function Offer(): JSX.Element {
                     <section className="offer__reviews reviews">
                       <h2 className="reviews__title">
                         Reviews
-                        {reviews.length && (
+                        {reviews.length > 0 && (
                           <>
                             &middot; <span className="reviews__amount">{reviews.length}</span>
                           </>
