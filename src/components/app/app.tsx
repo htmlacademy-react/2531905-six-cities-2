@@ -1,7 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {AppRoute, AuthorizationStatus} from '@/constants';
-import {OfferListItem} from '@/types';
 
 import Main from '@/pages/main/main';
 import Favorites from '@/pages/favorites/favorites';
@@ -10,13 +9,7 @@ import Offer from '@/pages/offer/offer';
 import NotFound from '@/pages/not-found/not-found';
 import PrivateRoute from '@/components/private-route/private-route';
 
-type AppProps = {
-  offers: OfferListItem[];
-}
-
-function App({offers}: AppProps): JSX.Element {
-  const favorites = offers.filter((item) => item.isFavorite);
-
+function App(): JSX.Element {
   const router = createBrowserRouter([
     {
       path: AppRoute.MainPage,
@@ -30,7 +23,7 @@ function App({offers}: AppProps): JSX.Element {
       path: AppRoute.FavoritesPage,
       element:
         <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-          <Favorites offers={favorites} />
+          <Favorites />
         </PrivateRoute>,
     },
     {

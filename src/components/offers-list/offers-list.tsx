@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import clsx from 'clsx';
 
 import {OfferListItem} from '@/types';
 
@@ -7,6 +6,8 @@ import Card from '@/components/card/card';
 import OffersListSort from '@/components/offers-list-sort/offers-list-sort';
 import Tabs from '@/components/tabs/tabs';
 import Map from '@/components/map/map';
+import OffersListEmpty from '@/components/offers-list-empty/offers-list-empty';
+
 import {useAppSelector} from '@/hooks/use-app-selector';
 
 const sortOptions = [
@@ -29,7 +30,6 @@ const sortOptions = [
 ];
 
 function OffersList() {
-  const allOffers = useAppSelector((state) => state.offers);
   const [activeItem, setActiveItem] = useState('');
   const [activeSort, setActiveSort] = useState(0);
 
@@ -39,18 +39,30 @@ function OffersList() {
     setActiveSort(index);
   };
 
-  const offers = [...allOffers].sort(sortOptions[activeSort].func);
-  const points = offers.map(({ location, id }: OfferListItem) => ({ location, id}));
+  const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.currentCity);
+  const offersInCity = offers.filter((item) => item.city.name === city.name).sort(sortOptions[activeSort].func);
+
+  if (!offersInCity.length) {
+    return (
+      <main className="page__main page__main--index page__main--index-empty">
+        <Tabs/>
+        <OffersListEmpty city={city} />
+      </main>
+    );
+  }
+
+  const points = offersInCity.map(({ location, id }: OfferListItem) => ({ location, id}));
   const options = sortOptions.map((item) => item.title);
 
-  const content = offers.length > 0 ?
-    (
+  return (
+    <main className="page__main page__main--index">
+      <Tabs/>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in {city.name}</b>
+            <b className="places__found">{offersInCity.length} places to stay in {city.name}</b>
             <OffersListSort
               options={options}
               activeSort={activeSort}
@@ -58,7 +70,7 @@ function OffersList() {
             />
             <div className="cities__places-list places__list">
               {
-                offers.map((card: OfferListItem) => (
+                offersInCity.map((card: OfferListItem) => (
                   <Card
                     key={card.id}
                     className="cities"
@@ -81,26 +93,6 @@ function OffersList() {
           </div>
         </div>
       </div>
-    ) : (
-      <div className="cities">
-        <div className="cities__places-container cities__places-container--empty container">
-          <section className="cities__no-places">
-            <div className="cities__status-wrapper tabs__content">
-              <b className="cities__status">No places to stay available</b>
-              <p className="cities__status-description">We could not find any property available at the moment in {city.name}</p>
-            </div>
-          </section>
-          <div className="cities__right-section"></div>
-        </div>
-      </div>
-    );
-
-  const pageClass = clsx('page__main page__main--index', !offers.length && 'page__main--index-empty');
-
-  return (
-    <main className={pageClass}>
-      <Tabs/>
-      {content}
     </main>
   );
 }

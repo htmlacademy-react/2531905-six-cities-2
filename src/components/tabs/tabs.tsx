@@ -1,29 +1,18 @@
+import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
+import {setCurrentCity} from '@/store/actions';
+import {CITIES} from '@/constants';
 
 import {City} from '@/types';
-import {useAppDispatch} from '@/hooks/use-app-dispatch';
-import {setCurrentCity, setOffers} from '@/store/actions';
-import {offers} from '@/mocks/offers';
-import {useCallback, useEffect} from 'react';
+import clsx from 'clsx';
 
 function Tabs() {
-  const cities = useAppSelector((state) => state.cities);
-
   const dispatch = useAppDispatch();
+  const currentCity = useAppSelector((state) => state.currentCity);
 
-  const setCityAndOffers = useCallback((city: City) => {
-    const offersInCity = offers.filter((item) => item.city.name === city.name);
+  const handleCityClick = (city: City) => {
     dispatch(setCurrentCity(city));
-    dispatch(setOffers(offersInCity));
-  }, [dispatch]);
-
-  const cityClickHandler = (city: City) => {
-    setCityAndOffers(city);
   };
-
-  useEffect(() => {
-    setCityAndOffers(cities[0]);
-  }, [cities, setCityAndOffers]);
 
   return (
     <>
@@ -32,13 +21,16 @@ function Tabs() {
         <section className="locations container">
           <ul className="locations__list tabs__list">
             {
-              cities.map((city: City) => (
-                <li key={city.name} className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active" onClick={() => cityClickHandler(city)}>
-                    <span>{city.name}</span>
-                  </a>
-                </li>
-              ))
+              CITIES.map((city: City) => {
+                const className = clsx('locations__item-link tabs__item', city.name === currentCity.name && 'tabs__item--active');
+                return (
+                  <li key={city.name} className="locations__item">
+                    <a className={className} onClick={() => handleCityClick(city)}>
+                      <span>{city.name}</span>
+                    </a>
+                  </li>
+                );
+              })
             }
           </ul>
         </section>
