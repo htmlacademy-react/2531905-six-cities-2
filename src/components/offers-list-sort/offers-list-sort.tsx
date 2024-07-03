@@ -35,7 +35,7 @@ function OffersListSort({options, activeSort, onSortChange}: OffersListItemProps
         {
           options.map((option, index) => {
             const optionsClass = clsx('places__option', index === activeSort && 'places__option--active');
-            return <li key={option} className={optionsClass} tabIndex={0} onClick={() => handleSortChange(index)}>{option}</li>
+            return <li key={option} className={optionsClass} tabIndex={0} onClick={() => handleSortChange(index)}>{option}</li>;
           })
         }
       </ul>
