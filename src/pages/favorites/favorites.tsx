@@ -1,18 +1,17 @@
 import {OfferListItem} from '@/types';
 import Layout from '@/components/layout/layout';
 import Card from '@/components/card/card';
-
-type FavoritesProps = {
-  offers: OfferListItem[];
-}
+import {useAppSelector} from '@/hooks/use-app-selector';
 
 type groupedOffer = {
   [key: string]: OfferListItem[];
 }
 
-function Favorites({offers}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const favorites = offers.filter((item) => item.isFavorite);
 
-  const groupedOffers: groupedOffer = offers.reduce((acc: groupedOffer, offer) => {
+  const groupedOffers: groupedOffer = favorites.reduce((acc: groupedOffer, offer) => {
     if (!acc[offer.city.name]) {
       acc[offer.city.name] = [];
     }
