@@ -7,41 +7,22 @@ import OffersListSort from '@/components/offers-list-sort/offers-list-sort';
 import Tabs from '@/components/tabs/tabs';
 import Map from '@/components/map/map';
 import OffersListEmpty from '@/components/offers-list-empty/offers-list-empty';
-
 import {useAppSelector} from '@/hooks/use-app-selector';
 
-const sortOptions = [
-  {
-    title: 'Popular',
-    func: () => 0,
-  },
-  {
-    title: 'Price: low to high',
-    func: (a: OfferListItem, b: OfferListItem) => (a.price - b.price),
-  },
-  {
-    title: 'Price: high to low',
-    func: (a: OfferListItem, b: OfferListItem) => (b.price - a.price),
-  },
-  {
-    title: 'Top rated first',
-    func: (a: OfferListItem, b: OfferListItem) => (b.rating - a.rating),
-  },
-];
+import {SORT_OPTIONS} from '@/constants';
 
 function OffersList() {
   const [activeItem, setActiveItem] = useState('');
-  const [activeSort, setActiveSort] = useState(0);
+  const activeSort = useAppSelector((state) => state.activeSort);
 
   const handleMouseEnter = (id: string) => setActiveItem(id);
   const handleMouseLeave = () => setActiveItem('');
-  const handleSortChange = (index: number) => {
-    setActiveSort(index);
-  };
 
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.currentCity);
-  const offersInCity = offers.filter((item) => item.city.name === city.name).sort(sortOptions[activeSort].func);
+  const offersInCity = offers
+    .filter((item) => item.city.name === city.name)
+    .sort(SORT_OPTIONS[activeSort]);
 
   if (!offersInCity.length) {
     return (
@@ -52,8 +33,8 @@ function OffersList() {
     );
   }
 
-  const points = offersInCity.map(({ location, id }: OfferListItem) => ({ location, id}));
-  const options = sortOptions.map((item) => item.title);
+  const points = offersInCity.map(({ location, id }) => ({ location, id}));
+  const options = Object.keys(SORT_OPTIONS);
 
   return (
     <main className="page__main page__main--index">
@@ -65,8 +46,6 @@ function OffersList() {
             <b className="places__found">{offersInCity.length} places to stay in {city.name}</b>
             <OffersListSort
               options={options}
-              activeSort={activeSort}
-              onSortChange={handleSortChange}
             />
             <div className="cities__places-list places__list">
               {
