@@ -1,13 +1,20 @@
 import clsx from 'clsx';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
+import { useOnClickOutside } from 'usehooks-ts';
+
+import {useAppSelector} from '@/hooks/use-app-selector';
+import {useAppDispatch} from '@/hooks/use-app-dispatch';
+import {setActiveSort} from '@/store/actions';
 
 type OffersListItemProps = {
   options: string[];
-  activeSort: number;
-  onSortChange: (index: number) => void;
 }
 
-function OffersListSort({options, activeSort, onSortChange}: OffersListItemProps) {
+function OffersListSort({options}: OffersListItemProps) {
+  const dispatch = useAppDispatch();
+
+  const activeSort = useAppSelector((state) => state.activeSort);
+  const ref = useRef(null);
   const [sortOpened, setSortOpened] = useState(false);
   const pageClass = clsx('places__options places__options--custom', sortOpened && 'places__options--opened');
 
@@ -15,27 +22,38 @@ function OffersListSort({options, activeSort, onSortChange}: OffersListItemProps
     setSortOpened((prevValue) => !prevValue);
   };
 
-  const handleSortChange = (index: number) => {
-    onSortChange(index);
+  const handleSortChange = (option: string) => {
+    dispatch(setActiveSort(option));
     setSortOpened(false);
   };
 
-  const currentTitle = options[activeSort];
+  useOnClickOutside(ref, () => {
+    setSortOpened(false);
+  });
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting" ref={ref}>
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0} onClick={toggleSort}>
-        {currentTitle}
+        {activeSort}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={pageClass}>
         {
-          options.map((option, index) => {
-            const optionsClass = clsx('places__option', index === activeSort && 'places__option--active');
-            return <li key={option} className={optionsClass} tabIndex={0} onClick={() => handleSortChange(index)}>{option}</li>
+          options.map((option) => {
+            const optionsClass = clsx('places__option', option === activeSort && 'places__option--active');
+            return (
+              <li
+                key={option}
+                className={optionsClass}
+                tabIndex={0}
+                onClick={() => handleSortChange(option)}
+              >
+                {option}
+              </li>
+            );
           })
         }
       </ul>

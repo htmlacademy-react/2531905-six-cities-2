@@ -1,3 +1,5 @@
+import {OfferListItem} from '@/types';
+
 export enum AppRoute {
   MainPage = '/',
   LoginPage = '/login',
@@ -11,6 +13,13 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const sortOptions = {
+  Popular: 'Popular',
+  PriceAsc: 'Price: low to high',
+  PriceDesc: 'Price: high to low',
+  RatingDesc: 'Top rated first',
+};
 
 export const STARS_COUNT = 5;
 
@@ -71,3 +80,10 @@ export const CITIES = [
     }
   }
 ];
+
+export const SORT_OPTIONS = {
+  [sortOptions.Popular]: () => 0,
+  [sortOptions.PriceAsc]: (a: OfferListItem, b: OfferListItem) => (a.price - b.price),
+  [sortOptions.PriceDesc]: (a: OfferListItem, b: OfferListItem) => (b.price - a.price),
+  [sortOptions.RatingDesc]: (a: OfferListItem, b: OfferListItem) => (b.rating - a.rating),
+};
