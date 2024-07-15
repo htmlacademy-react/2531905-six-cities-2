@@ -1,0 +1,8 @@
+.errors {
+  margin: 0;
+  color: #e94242;
+}
+
+.errors li {
+  margin-bottom: 0.7rem;
+}

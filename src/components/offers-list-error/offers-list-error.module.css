@@ -1,0 +1,12 @@
+.error {
+  padding-top: 2rem;
+  width: 100%;
+  color: red;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.image {
+  width: 280px;
+  height: 280px;
+}

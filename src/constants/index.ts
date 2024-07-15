@@ -10,6 +10,8 @@ export enum AppRoute {
 
 export enum ApiUrl {
   Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {
@@ -91,3 +93,15 @@ export const SORT_OPTIONS = {
   [sortOptions.PriceDesc]: (a: OfferListItem, b: OfferListItem) => (b.price - a.price),
   [sortOptions.RatingDesc]: (a: OfferListItem, b: OfferListItem) => (b.rating - a.rating),
 };
+
+export enum RequestStatus {
+  Idle = 'IDLE',
+  Loading = 'LOADING',
+  Success = 'SUCCESS',
+  Failed = 'FAILED',
+}
+
+export enum NameSpace {
+  Offer = 'OFFER',
+  User = 'USER',
+}

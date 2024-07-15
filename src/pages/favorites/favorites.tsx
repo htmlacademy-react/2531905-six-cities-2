@@ -2,13 +2,14 @@ import {OfferListItem} from '@/types';
 import Layout from '@/components/layout/layout';
 import Card from '@/components/card/card';
 import {useAppSelector} from '@/hooks/use-app-selector';
+import {getOffers} from '@/store/offers/selectors';
 
 type groupedOffer = {
   [key: string]: OfferListItem[];
 }
 
 function Favorites(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const favorites = offers.filter((item) => item.isFavorite);
 
   const groupedOffers: groupedOffer = favorites.reduce((acc: groupedOffer, offer) => {

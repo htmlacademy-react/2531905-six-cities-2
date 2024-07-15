@@ -7,6 +7,7 @@ import OffersListSort from '@/components/offers-list-sort/offers-list-sort';
 import Map from '@/components/map/map';
 import OffersListEmpty from '@/components/offers-list-empty/offers-list-empty';
 
+import {getActiveSort} from '@/store/offers/selectors';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {SORT_OPTIONS} from '@/constants';
 
@@ -17,7 +18,7 @@ type OffersListProps = {
 
 function OffersList({offers, city}: OffersListProps) {
   const [activeItem, setActiveItem] = useState('');
-  const activeSort = useAppSelector((state) => state.activeSort);
+  const activeSort = useAppSelector(getActiveSort);
   const sortedOffers = offers.sort(SORT_OPTIONS[activeSort]);
   const points = sortedOffers.map(({ location, id }) => ({ location, id}));
   const options = Object.keys(SORT_OPTIONS);

@@ -1,14 +1,16 @@
+import clsx from 'clsx';
+
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {setCurrentCity} from '@/store/actions';
+import {setCurrentCity} from '@/store/offers/offers';
+import {getCurrentCity} from '@/store/offers/selectors';
 import {CITIES} from '@/constants';
 
 import {City} from '@/types';
-import clsx from 'clsx';
 
 function Tabs() {
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentCity = useAppSelector(getCurrentCity);
 
   const handleCityClick = (city: City) => {
     dispatch(setCurrentCity(city));

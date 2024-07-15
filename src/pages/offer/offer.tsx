@@ -1,11 +1,6 @@
 import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
-import {OfferListItem} from '@/types';
-import {useAppSelector} from '@/hooks/use-app-selector';
-
-import {reviews} from '@/mocks/reviews';
-import {STARS_COUNT} from '@/constants';
 import CommentForm from '@/components/comment-form/comment-form';
 import Layout from '@/components/layout/layout';
 import Card from '@/components/card/card';
@@ -13,8 +8,14 @@ import PremiumBadge from '@/components/premium-badge/premium-badge';
 import ReviewsList from '@/components/reviews-list/reviews-list';
 import Map from '@/components/map/map';
 
+import {OfferListItem} from '@/types';
+import {useAppSelector} from '@/hooks/use-app-selector';
+import {getOffers} from '@/store/offers/selectors';
+import {reviews} from '@/mocks/reviews';
+import {STARS_COUNT} from '@/constants';
+
 function Offer(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const params = useParams();
 
   const offer = offers.find((item) => item.id === params.id) as OfferListItem;
