@@ -1,11 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {RejectedWithValueActionFromAsyncThunk} from '@reduxjs/toolkit/dist/matchers';
 
 import {AppDispatch, State} from '@/types/state';
 import {AxiosError, AxiosInstance} from 'axios';
 import {AuthData, LoginError, OfferListItem, UserData} from '@/types';
 
 import {ApiUrl} from '@/constants';
-import {RejectedWithValueActionFromAsyncThunk} from "@reduxjs/toolkit/dist/matchers";
 
 export const loadOffers = createAsyncThunk<OfferListItem[], undefined, {
   extra: AxiosInstance;
