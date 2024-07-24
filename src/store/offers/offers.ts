@@ -1,33 +1,28 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
-import {NameSpace, CITIES, sortOptions, RequestStatus} from '@/constants';
-import {loadOffers} from '@/store/api-actions';
+import {NameSpace, RequestStatus} from '@/constants';
+import {loadOffers} from './api-actions';
 
-import {OfferState} from '@/types/state';
-import {City} from '@/types';
+import {OfferListItem} from '@/types';
+
+type OfferState = {
+  offers: OfferListItem[];
+  offerStatus: RequestStatus;
+}
 
 const initialState: OfferState = {
   offers: [],
-  currentCity: CITIES[0],
-  activeSort: sortOptions.Popular,
   offerStatus: RequestStatus.Idle,
 };
 
 export const offersSlice = createSlice({
   name: NameSpace.Offer,
   initialState,
-  reducers: {
-    setCurrentCity: (state, action: PayloadAction<City>) => {
-      state.currentCity = action.payload;
-    },
-    setActiveSort: (state, action: PayloadAction<string>) => {
-      state.activeSort = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(loadOffers.pending, (state) => {
-        state.offerStatus = RequestStatus.Loading;
+        state.offerStatus = RequestStatus.Pending;
       })
       .addCase(loadOffers.fulfilled, (state, {payload}) => {
         state.offers = payload;
@@ -38,5 +33,3 @@ export const offersSlice = createSlice({
       });
   }
 });
-
-export const {setCurrentCity, setActiveSort} = offersSlice.actions;

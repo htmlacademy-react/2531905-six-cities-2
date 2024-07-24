@@ -11,3 +11,13 @@ export const formatDate = (value: string) => {
     year: date.getFullYear(),
   };
 };
+
+export const validateEmail = (value: string) => {
+  const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return regex.test(value);
+};
+
+export const validatePassword = (value: string) => {
+  const regex = /^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/;
+  return regex.test(value);
+};

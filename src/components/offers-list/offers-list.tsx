@@ -7,7 +7,7 @@ import OffersListSort from '@/components/offers-list-sort/offers-list-sort';
 import Map from '@/components/map/map';
 import OffersListEmpty from '@/components/offers-list-empty/offers-list-empty';
 
-import {getActiveSort} from '@/store/offers/selectors';
+import {getActiveSort} from '@/store/app/selectors';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {SORT_OPTIONS} from '@/constants';
 

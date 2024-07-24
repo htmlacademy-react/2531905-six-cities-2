@@ -96,7 +96,7 @@ export const SORT_OPTIONS = {
 
 export enum RequestStatus {
   Idle = 'IDLE',
-  Loading = 'LOADING',
+  Pending = 'PENDING',
   Success = 'SUCCESS',
   Failed = 'FAILED',
 }
@@ -104,4 +104,5 @@ export enum RequestStatus {
 export enum NameSpace {
   Offer = 'OFFER',
   User = 'USER',
+  App = 'APP',
 }

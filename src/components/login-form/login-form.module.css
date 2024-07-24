@@ -1,0 +1,21 @@
+.formErrorMessage {
+  margin-top: -21px;
+  padding-left: 5px;
+  font-size: 12px;
+  color: red;
+}
+
+.inputError {
+  border: 1px solid red;
+}
+
+.errors {
+  margin: 0;
+  color: #e94242;
+  padding-left: 5px;
+  list-style: none;
+}
+
+.errors li {
+  margin-bottom: 0.7rem;
+}

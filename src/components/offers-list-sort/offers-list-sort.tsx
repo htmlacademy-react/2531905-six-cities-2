@@ -4,8 +4,8 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
-import {setActiveSort} from '@/store/offers/offers';
-import {getActiveSort} from '@/store/offers/selectors';
+import {setActiveSort} from '@/store/app/app';
+import {getActiveSort} from '@/store/app/selectors';
 
 type OffersListItemProps = {
   options: string[];

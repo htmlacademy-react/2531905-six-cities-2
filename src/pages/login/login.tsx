@@ -1,72 +1,40 @@
-import {FormEvent, useState} from 'react';
+import {useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Layout from '@/components/layout/layout';
-import {AppRoute} from '@/constants';
-import {store} from '@/store';
-import {login} from '@/store/api-actions.ts';
-import {AuthData, ErrorDetail, LoginError} from '@/types';
+import LoginForm from '@/components/login-form/login-form';
+import {AppRoute, AuthorizationStatus, RequestStatus} from '@/constants';
+import {getRequestStatus, getAuthorizationStatus} from '@/store/user/selectors';
+import {useAppSelector} from '@/hooks/use-app-selector';
 
 import classes from './login.module.css';
 
 function Login(): JSX.Element {
-  const [errors, setErrors] = useState<string[]>([]);
   const navigate = useNavigate();
+  const status = useAppSelector(getRequestStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
 
-  const loginUser = async (data: AuthData) => {
-    setErrors([]);
-    const authResult = await store.dispatch(login(data));
-    const payload = authResult.payload as LoginError;
-    if (payload && !payload.errorType) {
+  useEffect(() => {
+    if (status === RequestStatus.Success && authStatus === AuthorizationStatus.Auth) {
       navigate(AppRoute.MainPage);
-    } else {
-      const inputErrors = payload.details.reduce((acc: string[], detail: ErrorDetail) => {
-        acc.push(detail.messages.join('; '));
-        return acc;
-      }, []);
-      setErrors(inputErrors);
     }
-  };
+  }, [status, authStatus, navigate]);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries()) as AuthData;
-    loginUser(data);
-  };
+  const sectionClass = `login ${classes.login}`;
 
   return (
     <div className="page page--gray page--login">
-      <Layout>
+      <Layout hideHeader>
         <main className="page__main page__main--login">
           <div className="page__login-container container">
-            <section className="login">
+            <section className={sectionClass}>
               <h1 className="login__title">Sign in</h1>
-              <form className="login__form form" onSubmit={handleFormSubmit}>
-                <div className="login__input-wrapper form__input-wrapper">
-                  <label className="visually-hidden">E-mail</label>
-                  <input className="login__input form__input" type="email" name="email" placeholder="Email" required/>
-                </div>
-                <div className="login__input-wrapper form__input-wrapper">
-                  <label className="visually-hidden">Password</label>
-                  <input className="login__input form__input" type="password" name="password" placeholder="Password"
-                    required
-                  />
-                </div>
-                <ul className={classes.errors}>
-                  {
-                    errors.map((error) => (
-                      <li key={error}>{error}</li>
-                    ))
-                  }
-                </ul>
-                <button className="login__submit form__submit button" type="submit">Sign in</button>
-              </form>
+              <LoginForm />
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
                 <Link to={AppRoute.MainPage} className="locations__item-link">
-                  <span>Amsterdam</span>
+                  <span>Paris</span>
                 </Link>
               </div>
             </section>

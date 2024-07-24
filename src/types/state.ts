@@ -1,18 +1,14 @@
 import {store} from '@/store';
-import {AuthorizationStatus, RequestStatus} from '@/constants';
-import {City, OfferListItem} from '@/types';
+import {AxiosInstance} from 'axios';
+import {RejectedWithValueActionFromAsyncThunk} from '@reduxjs/toolkit/dist/matchers';
 
 export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
-export type OfferState = {
-  offers: OfferListItem[];
-  currentCity: City;
-  activeSort: string;
-  offerStatus: RequestStatus;
-}
-
-export type UsersState = {
-  authorizationStatus: AuthorizationStatus;
+export type ThunkOptions = {
+  extra: AxiosInstance;
+  dispatch?: AppDispatch;
+  state?: State;
+  rejectWithValue?: RejectedWithValueActionFromAsyncThunk<never>;
 }

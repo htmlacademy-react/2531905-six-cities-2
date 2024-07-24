@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {setCurrentCity} from '@/store/offers/offers';
-import {getCurrentCity} from '@/store/offers/selectors';
+import {setCurrentCity} from '@/store/app/app';
+import {getCurrentCity} from '@/store/app/selectors';
 import {CITIES} from '@/constants';
 
 import {City} from '@/types';

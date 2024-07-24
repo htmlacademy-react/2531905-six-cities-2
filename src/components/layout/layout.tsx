@@ -1,16 +1,19 @@
-import {PropsWithChildren, ReactNode} from 'react';
+import {PropsWithChildren} from 'react';
 
 import Header from '@/components/header/header';
 import Footer from '@/components/footer/footer';
 
 type LayoutProps = PropsWithChildren <{
-  needFooter?: ReactNode;
+  needFooter?: boolean;
+  hideHeader?: boolean;
 }>;
 
-function Layout({needFooter, children}: LayoutProps) {
+function Layout({needFooter, hideHeader, children}: LayoutProps) {
   return (
     <>
-      <Header />
+      {
+        !hideHeader && <Header />
+      }
       {children}
       {
         needFooter && <Footer />

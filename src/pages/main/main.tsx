@@ -7,7 +7,8 @@ import Loader from '@/components/loader/loader';
 
 import {RequestStatus} from '@/constants';
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {getCurrentCity, getOffers, getOfferStatus} from '@/store/offers/selectors';
+import {getOffers, getOfferStatus} from '@/store/offers/selectors';
+import {getCurrentCity} from '@/store/app/selectors';
 import OffersListError from '@/components/offers-list-error/offers-list-error.tsx';
 
 function Main(): JSX.Element {
@@ -16,7 +17,7 @@ function Main(): JSX.Element {
   const city = useAppSelector(getCurrentCity);
   const offersInCity = offers.filter((item) => item.city.name === city.name);
 
-  const isOffersLoading = offersStatus === RequestStatus.Loading;
+  const isOffersLoading = offersStatus === RequestStatus.Pending;
   const isOffersError = offersStatus === RequestStatus.Failed;
   const pageClass = clsx('page__main page__main--index', !offersInCity.length && ' page__main--index-empty');
 
