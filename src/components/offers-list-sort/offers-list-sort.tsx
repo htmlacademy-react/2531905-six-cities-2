@@ -4,7 +4,8 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
-import {setActiveSort} from '@/store/actions';
+import {setActiveSort} from '@/store/app/app';
+import {getActiveSort} from '@/store/app/selectors';
 
 type OffersListItemProps = {
   options: string[];
@@ -13,7 +14,7 @@ type OffersListItemProps = {
 function OffersListSort({options}: OffersListItemProps) {
   const dispatch = useAppDispatch();
 
-  const activeSort = useAppSelector((state) => state.activeSort);
+  const activeSort = useAppSelector(getActiveSort);
   const ref = useRef(null);
   const [sortOpened, setSortOpened] = useState(false);
   const pageClass = clsx('places__options places__options--custom', sortOpened && 'places__options--opened');

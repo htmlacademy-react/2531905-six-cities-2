@@ -18,8 +18,9 @@ const sizes = {
 
 function Logo({ type }: LogoProps): JSX.Element {
   const {width, height} = sizes[type];
+
   return (
-    <Link to={AppRoute.MainPage} className="footer__logo-link">
+    <Link to={AppRoute.MainPage} className={`${type}__logo-link`}>
       <img
         className="footer__logo"
         src="img/logo.svg"

@@ -1,18 +1,19 @@
-import {PropsWithChildren, ReactNode} from 'react';
+import {PropsWithChildren} from 'react';
 
-import {AuthorizationStatus} from '@/constants';
 import Header from '@/components/header/header';
 import Footer from '@/components/footer/footer';
 
 type LayoutProps = PropsWithChildren <{
-  needFooter?: ReactNode;
-  authorizationStatus?: AuthorizationStatus;
+  needFooter?: boolean;
+  hideHeader?: boolean;
 }>;
 
-function Layout({needFooter, authorizationStatus, children}: LayoutProps) {
+function Layout({needFooter, hideHeader, children}: LayoutProps) {
   return (
     <>
-      <Header authorizationStatus={authorizationStatus} />
+      {
+        !hideHeader && <Header />
+      }
       {children}
       {
         needFooter && <Footer />

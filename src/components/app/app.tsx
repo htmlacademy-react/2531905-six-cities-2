@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import {AppRoute, AuthorizationStatus} from '@/constants';
+import {AppRoute} from '@/constants';
 
 import Main from '@/pages/main/main';
 import Favorites from '@/pages/favorites/favorites';
@@ -22,7 +22,7 @@ function App(): JSX.Element {
     {
       path: AppRoute.FavoritesPage,
       element:
-        <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+        <PrivateRoute>
           <Favorites />
         </PrivateRoute>,
     },
