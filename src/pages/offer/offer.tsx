@@ -9,15 +9,15 @@ import ReviewsList from '@/components/reviews-list/reviews-list';
 import Map from '@/components/map/map';
 import Loader from '@/components/loader/loader';
 
-import {AppRoute, RequestStatus, STARS_COUNT} from '@/constants';
+import {AppRoute, MAX_NEARBY_COUNT, MAX_REVIEWS_COUNT, RequestStatus, STARS_COUNT} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {loadNearbyOffers, loadOffer, loadReviews} from '@/store/offers/api-actions';
 import {getNearbyOffers, getOffer, getOfferStatus, getReviews} from '@/store/offers/selectors';
 import {clearNearbyOffers, clearOffer, clearReviews} from '@/store/offers/offers';
 import {getIsUserAuthorized} from '@/store/user/selectors';
-import {getRandomArrayValues} from "@/utils";
-import {OfferListItem} from "@/types";
+import {getRandomArrayValues} from '@/utils';
+import {OfferListItem} from '@/types';
 
 function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ function Offer(): JSX.Element {
 
   const offer = useAppSelector(getOffer);
   const allNearbyOffers = useAppSelector(getNearbyOffers);
-  const reviews = useAppSelector(getReviews);
+  const allReviews = useAppSelector(getReviews);
   const offerStatus = useAppSelector(getOfferStatus);
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
 
@@ -36,7 +36,8 @@ function Offer(): JSX.Element {
     navigate(AppRoute.NotFoundPage);
   }
 
-  const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, 3);
+  const reviews = allReviews.slice(-1 * MAX_REVIEWS_COUNT);
+  const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
 
   useEffect(() =>{

@@ -26,8 +26,8 @@ export const getRandomArrayValues = <T>(all: T[], count: number): T[] => {
   if (!all.length || count === 0) {
     return [];
   }
-  if (count < all.length) {
-    return all.slice(0, count);
+  if (all.length < count) {
+    return all.slice();
   } else {
     const includedIndexes: number[] = [];
     const result = [];

@@ -108,3 +108,6 @@ export enum NameSpace {
   User = 'USER',
   App = 'APP',
 }
+
+export const MAX_NEARBY_COUNT = 3;
+export const MAX_REVIEWS_COUNT = 10;

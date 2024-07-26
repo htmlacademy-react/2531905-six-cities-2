@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 import {NameSpace, AuthorizationStatus, RequestStatus} from '@/constants';
 import {checkAuth, login, logout} from './api-actions';
-import {saveToken} from '@/services/token.ts';
+import {saveToken} from '@/services/token';
 import {ErrorDetail, LoginError, UserData} from '@/types';
 
 type UsersState = {
