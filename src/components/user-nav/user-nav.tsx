@@ -3,24 +3,23 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {logout} from '@/store/user/api-actions';
 import {store} from '@/store';
-import {getAuthorizationStatus, getUser} from '@/store/user/selectors';
-import {AppRoute, AuthorizationStatus} from '@/constants';
+import {getIsUserAuthorized, getUser} from '@/store/user/selectors';
+import {AppRoute} from '@/constants';
 
 import classes from './user-nav.module.css';
 
 function UserNav() {
   const navigate = useNavigate();
 
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
   const user = useAppSelector(getUser);
-  const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleLogoutClick = () => {
     store.dispatch(logout());
     navigate(AppRoute.LoginPage);
   };
 
-  if (!isAuthenticated) {
+  if (!isUserAuthorized) {
     return (
       <nav className="header__nav">
         <ul className="header__nav-list">

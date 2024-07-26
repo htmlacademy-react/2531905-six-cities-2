@@ -34,6 +34,10 @@ function App(): JSX.Element {
       path: AppRoute.NotFoundPage,
       element: <NotFound />,
     },
+    {
+      path: AppRoute.DefaultPage,
+      element: <NotFound />,
+    },
   ]);
 
   return (

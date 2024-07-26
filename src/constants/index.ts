@@ -5,13 +5,15 @@ export enum AppRoute {
   LoginPage = '/login',
   FavoritesPage = '/favorites',
   OfferPage = '/offer/:id',
-  NotFoundPage = '*',
+  NotFoundPage = '/not-found',
+  DefaultPage = '*',
 }
 
 export enum ApiUrl {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Reviews = '/comments',
 }
 
 export enum AuthorizationStatus {
