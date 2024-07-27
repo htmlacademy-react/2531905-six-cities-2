@@ -32,13 +32,15 @@ function Offer(): JSX.Element {
 
   const offerId = params.id;
 
-  if (!offer && offerStatus === RequestStatus.Failed) {
-    navigate(AppRoute.NotFoundPage);
-  }
-
-  const reviews = allReviews.slice(-1 * MAX_REVIEWS_COUNT);
+  const reviews = allReviews.slice(0, MAX_REVIEWS_COUNT);
   const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
+
+  useEffect(() => {
+    if (!offer && offerStatus === RequestStatus.NotFound) {
+      navigate(AppRoute.NotFoundPage);
+    }
+  }, [navigate, offer, offerStatus]);
 
   useEffect(() =>{
     window.scrollTo(0, 0);

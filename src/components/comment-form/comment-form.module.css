@@ -1,0 +1,9 @@
+.formErrorMessage {
+  margin: 0;
+  font-size: 14px;
+  color: red;
+}
+
+.disabledLabel {
+  pointer-events: none;
+}

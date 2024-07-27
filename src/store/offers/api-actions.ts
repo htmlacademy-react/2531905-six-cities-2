@@ -6,6 +6,7 @@ import {ThunkOptions} from '@/types/state';
 type ReviewPayload = {
   formData: ReviewFormData;
   offerId: string;
+  onSuccess?: () => void;
 }
 
 export const loadOffers = createAsyncThunk<OfferListItem[], undefined, ThunkOptions>(
@@ -19,10 +20,14 @@ export const loadOffers = createAsyncThunk<OfferListItem[], undefined, ThunkOpti
 
 export const loadOffer = createAsyncThunk<Offer, string, ThunkOptions>(
   'offer/loadOffer',
-  async (offerId, { extra: api}) => {
-    const {data} = await api.get<Offer>(`${ApiUrl.Offers}/${offerId}`);
+  async (offerId, { extra: api, rejectWithValue}) => {
+    try {
+      const {data} = await api.get<Offer>(`${ApiUrl.Offers}/${offerId}`);
 
-    return data;
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );
 
@@ -46,8 +51,11 @@ export const loadReviews = createAsyncThunk<ReviewListItem[], string, ThunkOptio
 
 export const sendReview = createAsyncThunk<ReviewListItem, ReviewPayload, ThunkOptions>(
   'offer/sendReview',
-  async ({formData, offerId}, { extra: api }) => {
+  async ({formData, offerId, onSuccess}, { extra: api }) => {
     const {data} = await api.post<ReviewListItem>(`${ApiUrl.Reviews}/${offerId}`, formData);
+    if (onSuccess) {
+      onSuccess();
+    }
 
     return data;
   }

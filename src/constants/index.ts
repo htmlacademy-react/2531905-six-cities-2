@@ -101,6 +101,7 @@ export enum RequestStatus {
   Pending = 'PENDING',
   Success = 'SUCCESS',
   Failed = 'FAILED',
+  NotFound = 'NOT_FOUND',
 }
 
 export enum NameSpace {

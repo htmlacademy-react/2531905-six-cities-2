@@ -8,3 +8,4 @@ export const getOfferStatus = (state: State): RequestStatus => state[NameSpace.O
 export const getOffer = (state: State): Offer | null => state[NameSpace.Offer].currentOffer;
 export const getNearbyOffers = (state: State): OfferListItem[] => state[NameSpace.Offer].nearbyOffers;
 export const getReviews = (state: State): ReviewListItem[] => state[NameSpace.Offer].reviews;
+export const getReviewRequestStatus = (state: State): RequestStatus => state[NameSpace.Offer].reviewRequestStatus;

@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {StatusCodes} from 'http-status-codes';
+import {AxiosError} from 'axios';
 
 import {NameSpace, RequestStatus} from '@/constants';
 import {loadOffers, loadOffer, loadNearbyOffers, loadReviews, sendReview} from './api-actions';
@@ -12,6 +14,7 @@ type OfferState = {
   currentOffer: Offer | null;
   nearbyOffers: OfferListItem[];
   reviews: ReviewListItem[];
+  reviewRequestStatus: RequestStatus;
 }
 
 const initialState: OfferState = {
@@ -21,6 +24,7 @@ const initialState: OfferState = {
   currentOffer: null,
   nearbyOffers: [],
   reviews: [],
+  reviewRequestStatus: RequestStatus.Idle,
 };
 
 export const offersSlice = createSlice({
@@ -57,8 +61,12 @@ export const offersSlice = createSlice({
         state.offerStatus = RequestStatus.Success;
         state.currentOffer = payload;
       })
-      .addCase(loadOffer.rejected, (state) => {
+      .addCase(loadOffer.rejected, (state, {payload}) => {
+        const error = payload as AxiosError;
         state.offerStatus = RequestStatus.Failed;
+        if (error.response && error.response.status === StatusCodes.NOT_FOUND) {
+          state.offerStatus = RequestStatus.NotFound;
+        }
         state.currentOffer = null;
       })
       .addCase(loadNearbyOffers.fulfilled, (state, {payload}) => {
@@ -68,13 +76,20 @@ export const offersSlice = createSlice({
         state.nearbyOffers = [];
       })
       .addCase(loadReviews.fulfilled, (state, {payload}) => {
-        state.reviews = payload;
+        state.reviews = payload.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       })
       .addCase(loadReviews.rejected, (state) => {
         state.reviews = [];
       })
+      .addCase(sendReview.pending, (state) => {
+        state.reviewRequestStatus = RequestStatus.Pending;
+      })
       .addCase(sendReview.fulfilled, (state, {payload}) => {
-        state.reviews.push(payload);
+        state.reviews.unshift(payload);
+        state.reviewRequestStatus = RequestStatus.Success;
+      })
+      .addCase(sendReview.rejected, (state) => {
+        state.reviewRequestStatus = RequestStatus.Failed;
       });
   }
 });
