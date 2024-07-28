@@ -5,13 +5,15 @@ export enum AppRoute {
   LoginPage = '/login',
   FavoritesPage = '/favorites',
   OfferPage = '/offer/:id',
-  NotFoundPage = '*',
+  NotFoundPage = '/not-found',
+  DefaultPage = '*',
 }
 
 export enum ApiUrl {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Reviews = '/comments',
 }
 
 export enum AuthorizationStatus {
@@ -99,6 +101,7 @@ export enum RequestStatus {
   Pending = 'PENDING',
   Success = 'SUCCESS',
   Failed = 'FAILED',
+  NotFound = 'NOT_FOUND',
 }
 
 export enum NameSpace {
@@ -106,3 +109,6 @@ export enum NameSpace {
   User = 'USER',
   App = 'APP',
 }
+
+export const MAX_NEARBY_COUNT = 3;
+export const MAX_REVIEWS_COUNT = 10;

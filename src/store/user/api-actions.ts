@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosError} from 'axios';
 
 import {ApiUrl} from '@/constants';
-import {dropToken} from '@/services/token.ts';
+import {dropToken} from '@/services/token';
 import {AuthData, LoginError, UserData} from '@/types';
 import {ThunkOptions} from '@/types/state';
 

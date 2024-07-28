@@ -3,8 +3,8 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import Layout from '@/components/layout/layout';
 import LoginForm from '@/components/login-form/login-form';
-import {AppRoute, AuthorizationStatus, RequestStatus} from '@/constants';
-import {getRequestStatus, getAuthorizationStatus} from '@/store/user/selectors';
+import {AppRoute, RequestStatus} from '@/constants';
+import {getRequestStatus, getIsUserAuthorized} from '@/store/user/selectors';
 import {useAppSelector} from '@/hooks/use-app-selector';
 
 import classes from './login.module.css';
@@ -12,13 +12,13 @@ import classes from './login.module.css';
 function Login(): JSX.Element {
   const navigate = useNavigate();
   const status = useAppSelector(getRequestStatus);
-  const authStatus = useAppSelector(getAuthorizationStatus);
+  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
 
   useEffect(() => {
-    if (status === RequestStatus.Success && authStatus === AuthorizationStatus.Auth) {
+    if (status === RequestStatus.Success && isUserAuthorized) {
       navigate(AppRoute.MainPage);
     }
-  }, [status, authStatus, navigate]);
+  }, [status, isUserAuthorized, navigate]);
 
   const sectionClass = `login ${classes.login}`;
 

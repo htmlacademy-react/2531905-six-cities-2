@@ -1,4 +1,6 @@
 import {ChangeEvent, FormEvent, useState} from 'react';
+import clsx from 'clsx';
+
 import {login} from '@/store/user/api-actions';
 import {RequestStatus} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
@@ -61,7 +63,7 @@ function LoginForm() {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">E-mail</label>
         <input
-          className={`login__input form__input ${formErrors.email.length ? classes.inputError : ''}`}
+          className={`login__input form__input ${clsx(formErrors.email.length && classes.inputError)}`}
           type="email"
           name="email"
           placeholder="Email"
@@ -76,7 +78,7 @@ function LoginForm() {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">Password</label>
         <input
-          className={`login__input form__input ${formErrors.password.length ? classes.inputError : ''}`}
+          className={`login__input form__input ${clsx(formErrors.password.length && classes.inputError)}`}
           type="password"
           name="password"
           placeholder="Password"
