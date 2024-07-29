@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
+import {StatusCodes} from 'http-status-codes';
 
 import CommentForm from '@/components/comment-form/comment-form';
 import Layout from '@/components/layout/layout';
@@ -8,7 +9,7 @@ import PremiumBadge from '@/components/premium-badge/premium-badge';
 import ReviewsList from '@/components/reviews-list/reviews-list';
 import Map from '@/components/map/map';
 import Loader from '@/components/loader/loader';
-import {StatusCodes} from 'http-status-codes';
+import CardBookmarkButton from '@/components/card-bookmark-button/card-bookmark-button';
 
 import {AppRoute, MAX_NEARBY_COUNT, MAX_REVIEWS_COUNT, RequestStatus, STARS_COUNT} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
@@ -19,7 +20,6 @@ import {clearNearbyOffers, clearOffer, clearReviews} from '@/store/offers/offers
 import {getIsUserAuthorized} from '@/store/user/selectors';
 import {getRandomArrayValues} from '@/utils';
 import {OfferListItem} from '@/types';
-import CardBookmarkButton from '@/components/card-bookmark-button/card-bookmark-button.tsx';
 
 function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
