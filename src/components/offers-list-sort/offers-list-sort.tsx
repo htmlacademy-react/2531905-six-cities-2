@@ -6,12 +6,10 @@ import {useAppSelector} from '@/hooks/use-app-selector';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {setActiveSort} from '@/store/app/app';
 import {getActiveSort} from '@/store/app/selectors';
+import {SORT_OPTIONS} from '@/constants';
 
-type OffersListItemProps = {
-  options: string[];
-}
-
-function OffersListSort({options}: OffersListItemProps) {
+function OffersListSort() {
+  const options = Object.keys(SORT_OPTIONS);
   const dispatch = useAppDispatch();
 
   const activeSort = useAppSelector(getActiveSort);

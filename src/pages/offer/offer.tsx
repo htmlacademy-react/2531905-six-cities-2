@@ -8,16 +8,18 @@ import PremiumBadge from '@/components/premium-badge/premium-badge';
 import ReviewsList from '@/components/reviews-list/reviews-list';
 import Map from '@/components/map/map';
 import Loader from '@/components/loader/loader';
+import {StatusCodes} from 'http-status-codes';
 
 import {AppRoute, MAX_NEARBY_COUNT, MAX_REVIEWS_COUNT, RequestStatus, STARS_COUNT} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {loadNearbyOffers, loadOffer, loadReviews} from '@/store/offers/api-actions';
-import {getNearbyOffers, getOffer, getOfferStatus, getReviews} from '@/store/offers/selectors';
+import {getErrorCode, getFavoriteOffers, getNearbyOffers, getOffer, getOfferStatus, getReviews} from '@/store/offers/selectors';
 import {clearNearbyOffers, clearOffer, clearReviews} from '@/store/offers/offers';
 import {getIsUserAuthorized} from '@/store/user/selectors';
 import {getRandomArrayValues} from '@/utils';
 import {OfferListItem} from '@/types';
+import CardBookmarkButton from '@/components/card-bookmark-button/card-bookmark-button.tsx';
 
 function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -28,19 +30,22 @@ function Offer(): JSX.Element {
   const allNearbyOffers = useAppSelector(getNearbyOffers);
   const allReviews = useAppSelector(getReviews);
   const offerStatus = useAppSelector(getOfferStatus);
+  const errorCode = useAppSelector(getErrorCode);
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const favorites = useAppSelector(getFavoriteOffers);
 
-  const offerId = params.id;
+  const offerId = params.id || '';
 
   const reviews = allReviews.slice(0, MAX_REVIEWS_COUNT);
   const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
+  const isFavorite = favorites.some((item) => item.id === offerId);
 
   useEffect(() => {
-    if (!offer && offerStatus === RequestStatus.NotFound) {
+    if (!offer && errorCode === StatusCodes.NOT_FOUND) {
       navigate(AppRoute.NotFoundPage);
     }
-  }, [navigate, offer, offerStatus]);
+  }, [navigate, offer, errorCode]);
 
   useEffect(() =>{
     window.scrollTo(0, 0);
@@ -84,12 +89,7 @@ function Offer(): JSX.Element {
                       <h1 className="offer__name">
                         {offer.title}
                       </h1>
-                      <button className="offer__bookmark-button button" type="button">
-                        <svg className="offer__bookmark-icon" width="31" height="33">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-                      </button>
+                      <CardBookmarkButton isFavorite={isFavorite} offerId={offer.id} type="offer" />
                     </div>
                     <div className="offer__rating rating">
                       <div className="offer__stars rating__stars">

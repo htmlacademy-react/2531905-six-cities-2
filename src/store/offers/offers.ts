@@ -3,14 +3,16 @@ import {StatusCodes} from 'http-status-codes';
 import {AxiosError} from 'axios';
 
 import {NameSpace, RequestStatus} from '@/constants';
-import {loadOffers, loadOffer, loadNearbyOffers, loadReviews, sendReview} from './api-actions';
+import {loadOffers, loadOffer, loadNearbyOffers, loadReviews, sendReview, getFavorites, toggleFavorite} from './api-actions';
 
 import {Offer, OfferListItem, ReviewListItem} from '@/types';
 
 type OfferState = {
   offers: OfferListItem[];
+  favorites: OfferListItem[];
   offersListStatus: RequestStatus;
   offerStatus: RequestStatus;
+  errorCode: StatusCodes | null;
   currentOffer: Offer | null;
   nearbyOffers: OfferListItem[];
   reviews: ReviewListItem[];
@@ -19,8 +21,10 @@ type OfferState = {
 
 const initialState: OfferState = {
   offers: [],
+  favorites: [],
   offersListStatus: RequestStatus.Idle,
   offerStatus: RequestStatus.Idle,
+  errorCode: null,
   currentOffer: null,
   nearbyOffers: [],
   reviews: [],
@@ -40,6 +44,9 @@ export const offersSlice = createSlice({
     },
     clearReviews: (state) => {
       state.reviews = [];
+    },
+    clearFavorites: (state) => {
+      state.favorites = [];
     },
   },
   extraReducers(builder) {
@@ -64,8 +71,8 @@ export const offersSlice = createSlice({
       .addCase(loadOffer.rejected, (state, {payload}) => {
         const error = payload as AxiosError;
         state.offerStatus = RequestStatus.Failed;
-        if (error.response && error.response.status === StatusCodes.NOT_FOUND) {
-          state.offerStatus = RequestStatus.NotFound;
+        if (error.response) {
+          state.errorCode = error.response.status;
         }
         state.currentOffer = null;
       })
@@ -90,8 +97,33 @@ export const offersSlice = createSlice({
       })
       .addCase(sendReview.rejected, (state) => {
         state.reviewRequestStatus = RequestStatus.Failed;
+      })
+      .addCase(getFavorites.fulfilled, (state, {payload}) => {
+        state.favorites = payload;
+      })
+      .addCase(getFavorites.rejected, (state) => {
+        state.favorites = [];
+      })
+      .addCase(toggleFavorite.fulfilled, (state, {payload}) => {
+        if (payload.isFavorite) {
+          state.favorites.push(payload);
+        } else {
+          state.favorites = state.favorites.filter((item) => item.id !== payload.id);
+        }
+        if (state.currentOffer?.id === payload.id) {
+          state.currentOffer.isFavorite = payload.isFavorite;
+        }
+        const offer = state.offers.find((item) => item.id === payload.id);
+        if (offer) {
+          offer.isFavorite = payload.isFavorite;
+        }
       });
   }
 });
 
-export const {clearOffer, clearNearbyOffers, clearReviews} = offersSlice.actions;
+export const {
+  clearOffer,
+  clearNearbyOffers,
+  clearReviews,
+  clearFavorites
+} = offersSlice.actions;

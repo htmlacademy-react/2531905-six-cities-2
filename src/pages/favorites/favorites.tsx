@@ -1,16 +1,23 @@
+import {Link} from 'react-router-dom';
+
 import {OfferListItem} from '@/types';
+import {AppRoute, CITIES} from '@/constants';
+
 import Layout from '@/components/layout/layout';
 import Card from '@/components/card/card';
+import FavoritesEmpty from '@/components/favorites-empty/favorites-empty';
+import {getFavoriteOffers} from '@/store/offers/selectors';
+import {setCurrentCity} from '@/store/app/app';
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {getOffers} from '@/store/offers/selectors';
+import {useAppDispatch} from '@/hooks/use-app-dispatch';
 
 type groupedOffer = {
   [key: string]: OfferListItem[];
 }
 
 function Favorites(): JSX.Element {
-  const offers = useAppSelector(getOffers);
-  const favorites = offers.filter((item) => item.isFavorite);
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector(getFavoriteOffers);
 
   const groupedOffers: groupedOffer = favorites.reduce((acc: groupedOffer, offer) => {
     if (!acc[offer.city.name]) {
@@ -19,6 +26,17 @@ function Favorites(): JSX.Element {
     acc[offer.city.name].push(offer);
     return acc;
   }, {});
+
+  const handleCityClick = (name: string) => {
+    const city = CITIES.find((item) => item.name === name);
+    if (city) {
+      dispatch(setCurrentCity(city));
+    }
+  };
+
+  if (!favorites.length) {
+    return <FavoritesEmpty />;
+  }
 
   return (
     <div className="page">
@@ -33,9 +51,9 @@ function Favorites(): JSX.Element {
                     <li key={city} className="favorites__locations-items">
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
-                          <a className="locations__item-link" href="#">
+                          <Link to={AppRoute.MainPage} className="locations__item-link" onClick={() => handleCityClick(city)}>
                             <span>{city}</span>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="favorites__places">

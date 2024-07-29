@@ -1,21 +1,24 @@
 import {Link, useNavigate} from 'react-router-dom';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
+import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {logout} from '@/store/user/api-actions';
-import {store} from '@/store';
 import {getIsUserAuthorized, getUser} from '@/store/user/selectors';
+import {getFavoriteOffers} from '@/store/offers/selectors';
 import {AppRoute} from '@/constants';
 
 import classes from './user-nav.module.css';
 
 function UserNav() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const favorites = useAppSelector(getFavoriteOffers);
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
   const user = useAppSelector(getUser);
 
   const handleLogoutClick = () => {
-    store.dispatch(logout());
+    dispatch(logout());
     navigate(AppRoute.LoginPage);
   };
 
@@ -45,7 +48,9 @@ function UserNav() {
             <span className="header__user-name user__name">
               {user?.email}
             </span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">
+              {favorites.length}
+            </span>
           </Link>
         </li>
         <li className="header__nav-item">

@@ -4,6 +4,8 @@ import {AppRoute, STARS_COUNT} from '@/constants';
 import {OfferListItem} from '@/types';
 import CardBookmarkButton from '@/components/card-bookmark-button/card-bookmark-button';
 import PremiumBadge from '@/components/premium-badge/premium-badge';
+import {useAppSelector} from '@/hooks/use-app-selector';
+import {getFavoriteOffers} from '@/store/offers/selectors';
 
 type CardProps = {
   card: OfferListItem;
@@ -35,17 +37,18 @@ function Card({
     type,
     title,
     previewImage,
-    isFavorite,
     isPremium,
   },
   onMouseEnter,
   onMouseLeave,
   className,
 }: CardProps): JSX.Element {
+  const favorites = useAppSelector(getFavoriteOffers);
   const {width, height} = sizes[className];
   const offerUrl = generatePath(AppRoute.OfferPage, {
     id: id,
   });
+  const isFavorite = favorites.some((item) => item.id === id);
 
   return (
     <article
@@ -65,7 +68,7 @@ function Card({
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <CardBookmarkButton isFavorite={isFavorite}/>
+          <CardBookmarkButton isFavorite={isFavorite} offerId={id} type="place-card"/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

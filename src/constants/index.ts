@@ -14,6 +14,7 @@ export enum ApiUrl {
   Login = '/login',
   Logout = '/logout',
   Reviews = '/comments',
+  Favorites = '/favorite',
 }
 
 export enum AuthorizationStatus {
