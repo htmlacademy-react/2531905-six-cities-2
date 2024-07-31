@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import {useCallback} from 'react';
 
 import {toggleFavorite} from '@/store/offers/api-actions';
 import {getIsUserAuthorized} from '@/store/user/selectors';
@@ -29,12 +28,12 @@ function CardBookmarkButton({isFavorite, type, offerId}: CardBookmarkButtonProps
   const bookmarkClass = clsx(`${type}__bookmark-button button`, isFavorite && `${type}__bookmark-button--active`);
   const {width, height} = sizes[type];
 
-  const handleBookmarkClick = useCallback(() => {
+  const handleBookmarkClick = () => {
     if (isUserAuthorized) {
       const status = Number(!isFavorite);
       dispatch(toggleFavorite({offerId, status}));
     }
-  }, [dispatch, isFavorite, offerId, isUserAuthorized]);
+  };
 
   return (
     <button onClick={handleBookmarkClick} className={bookmarkClass} type="button">

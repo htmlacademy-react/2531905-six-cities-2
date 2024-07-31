@@ -5,7 +5,7 @@ import Layout from '@/components/layout/layout';
 import {AppRoute} from '@/constants';
 import classes from './not-found.module.css';
 
-function NotFound(): JSX.Element {
+export function NotFound(): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Layout>
@@ -26,5 +26,3 @@ function NotFound(): JSX.Element {
     </div>
   );
 }
-
-export default NotFound;

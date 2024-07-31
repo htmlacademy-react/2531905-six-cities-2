@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 import {City, OfferListItem} from '@/types';
 
@@ -25,6 +25,18 @@ function OffersList({offers, city}: OffersListProps) {
   const handleMouseEnter = useCallback((id: string) => setActiveItem(id), []);
   const handleMouseLeave = useCallback(() => setActiveItem(''), []);
 
+  const memoizedOffers = useMemo(() => (
+    sortedOffers.map((card: OfferListItem) => (
+      <Card
+        key={card.id}
+        className="cities"
+        card={card}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
+    ))
+  ), [handleMouseEnter, handleMouseLeave, sortedOffers]);
+
   if (!offers.length) {
     return <OffersListEmpty city={city} />;
   }
@@ -38,15 +50,7 @@ function OffersList({offers, city}: OffersListProps) {
           <OffersListSort/>
           <div className="cities__places-list places__list">
             {
-              sortedOffers.map((card: OfferListItem) => (
-                <Card
-                  key={card.id}
-                  className="cities"
-                  card={card}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                />
-              ))
+              memoizedOffers
             }
           </div>
         </section>

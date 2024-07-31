@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import {useState, useRef} from 'react';
+import {useState, useRef, memo} from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
@@ -8,7 +8,7 @@ import {setActiveSort} from '@/store/app/app';
 import {getActiveSort} from '@/store/app/selectors';
 import {SORT_OPTIONS} from '@/constants';
 
-function OffersListSort() {
+function OffersListSortComponent() {
   const options = Object.keys(SORT_OPTIONS);
   const dispatch = useAppDispatch();
 
@@ -59,5 +59,7 @@ function OffersListSort() {
     </form>
   );
 }
+
+const OffersListSort = memo(OffersListSortComponent);
 
 export default OffersListSort;

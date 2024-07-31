@@ -110,13 +110,6 @@ export const offersSlice = createSlice({
         } else {
           state.favorites = state.favorites.filter((item) => item.id !== payload.id);
         }
-        if (state.currentOffer?.id === payload.id) {
-          state.currentOffer.isFavorite = payload.isFavorite;
-        }
-        const offer = state.offers.find((item) => item.id === payload.id);
-        if (offer) {
-          offer.isFavorite = payload.isFavorite;
-        }
       });
   }
 });

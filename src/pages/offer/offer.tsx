@@ -21,7 +21,7 @@ import {getIsUserAuthorized} from '@/store/user/selectors';
 import {getRandomArrayValues} from '@/utils';
 import {OfferListItem} from '@/types';
 
-function Offer(): JSX.Element {
+export function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
@@ -201,5 +201,3 @@ function Offer(): JSX.Element {
     </div>
   );
 }
-
-export default Offer;
