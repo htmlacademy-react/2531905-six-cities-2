@@ -5,15 +5,13 @@ import Footer from '@/components/footer/footer';
 
 type LayoutProps = PropsWithChildren <{
   needFooter?: boolean;
-  hideHeader?: boolean;
+  hideNav?: boolean;
 }>;
 
-function Layout({needFooter, hideHeader, children}: LayoutProps) {
+function Layout({needFooter, hideNav, children}: LayoutProps) {
   return (
     <>
-      {
-        !hideHeader && <Header />
-      }
+      <Header hideNav={hideNav}/>
       {children}
       {
         needFooter && <Footer />

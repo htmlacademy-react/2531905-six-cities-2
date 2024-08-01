@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 import {City, OfferListItem} from '@/types';
 
@@ -21,10 +21,21 @@ function OffersList({offers, city}: OffersListProps) {
   const activeSort = useAppSelector(getActiveSort);
   const sortedOffers = offers.sort(SORT_OPTIONS[activeSort]);
   const points = sortedOffers.map(({ location, id }) => ({ location, id}));
-  const options = Object.keys(SORT_OPTIONS);
 
-  const handleMouseEnter = (id: string) => setActiveItem(id);
-  const handleMouseLeave = () => setActiveItem('');
+  const handleMouseEnter = useCallback((id: string) => setActiveItem(id), []);
+  const handleMouseLeave = useCallback(() => setActiveItem(''), []);
+
+  const memoizedOffers = useMemo(() => (
+    sortedOffers.map((card: OfferListItem) => (
+      <Card
+        key={card.id}
+        className="cities"
+        card={card}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
+    ))
+  ), [handleMouseEnter, handleMouseLeave, sortedOffers]);
 
   if (!offers.length) {
     return <OffersListEmpty city={city} />;
@@ -36,18 +47,10 @@ function OffersList({offers, city}: OffersListProps) {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">{offers.length} places to stay in {city.name}</b>
-          <OffersListSort options={options}/>
+          <OffersListSort/>
           <div className="cities__places-list places__list">
             {
-              sortedOffers.map((card: OfferListItem) => (
-                <Card
-                  key={card.id}
-                  className="cities"
-                  card={card}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                />
-              ))
+              memoizedOffers
             }
           </div>
         </section>

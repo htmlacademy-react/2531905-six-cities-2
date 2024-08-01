@@ -1,8 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {NameSpace, AuthorizationStatus, RequestStatus} from '@/constants';
+import {AuthorizationStatus, NameSpace, RequestStatus} from '@/constants';
 import {checkAuth, login, logout} from './api-actions';
-import {saveToken} from '@/services/token';
 import {ErrorDetail, LoginError, UserData} from '@/types';
 
 type UsersState = {
@@ -39,9 +38,7 @@ export const usersSlice = createSlice({
       .addCase(login.fulfilled, (state, {payload}) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.requestStatus = RequestStatus.Success;
-        const data = payload as UserData;
-        state.user = data;
-        saveToken(data.token);
+        state.user = payload as UserData;
       })
       .addCase(login.rejected, (state, {payload}) => {
         const error = payload as LoginError;

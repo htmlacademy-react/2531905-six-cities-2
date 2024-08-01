@@ -5,8 +5,6 @@ import {AppRoute} from '@/constants';
 import Main from '@/pages/main/main';
 import Favorites from '@/pages/favorites/favorites';
 import Login from '@/pages/login/login';
-import Offer from '@/pages/offer/offer';
-import NotFound from '@/pages/not-found/not-found';
 import PrivateRoute from '@/components/private-route/private-route';
 
 function App(): JSX.Element {
@@ -28,15 +26,24 @@ function App(): JSX.Element {
     },
     {
       path: `${AppRoute.OfferPage}`,
-      element: <Offer />,
+      async lazy() {
+        const { Offer } = await import('@/pages/offer/offer');
+        return { Component: Offer };
+      },
     },
     {
       path: AppRoute.NotFoundPage,
-      element: <NotFound />,
+      async lazy() {
+        const { NotFound } = await import('@/pages/not-found/not-found');
+        return { Component: NotFound };
+      },
     },
     {
       path: AppRoute.DefaultPage,
-      element: <NotFound />,
+      async lazy() {
+        const { NotFound } = await import('@/pages/not-found/not-found');
+        return { Component: NotFound };
+      },
     },
   ]);
 
