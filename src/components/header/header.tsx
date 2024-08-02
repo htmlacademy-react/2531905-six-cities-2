@@ -2,11 +2,10 @@ import UserNav from '@/components/user-nav/user-nav';
 import Logo from '@/components/logo/logo';
 
 type HeaderProps = {
-  hideNav?: boolean;
+  showNav: boolean;
 }
 
-function Header({hideNav}: HeaderProps) {
-
+function Header({showNav = true}: HeaderProps) {
   return (
     <header className="header">
       <div className="container">
@@ -15,7 +14,7 @@ function Header({hideNav}: HeaderProps) {
             <Logo type="header" />
           </div>
           {
-            !hideNav && <UserNav />
+            showNav && <UserNav />
           }
         </div>
       </div>
