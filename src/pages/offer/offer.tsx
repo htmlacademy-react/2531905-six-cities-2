@@ -40,6 +40,12 @@ export function Offer(): JSX.Element {
   const reviews = allReviews.slice(0, MAX_REVIEWS_COUNT);
   const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
+  if (offer) {
+    points.push({
+      location: offer.location,
+      id: offer.id,
+    });
+  }
   const isFavorite = favorites.some((item) => item.id === offerId);
 
   useEffect(() => {
@@ -75,7 +81,7 @@ export function Offer(): JSX.Element {
                 <div className="offer__gallery-container container">
                   <div className="offer__gallery">
                     {
-                      offer.images.map((image) => (
+                      offer.images.slice(0, 6).map((image) => (
                         <div key={image} className="offer__image-wrapper">
                           <img className="offer__image" src={image} alt="Photo studio"/>
                         </div>
@@ -176,7 +182,12 @@ export function Offer(): JSX.Element {
                   </div>
                 </div>
                 <div className="container">
-                  <Map className="offer__map" points={points} city={offer.city}/>
+                  <Map
+                    className="offer__map"
+                    points={points}
+                    city={offer.city}
+                    selectedPoint={offer.id}
+                  />
                 </div>
               </section>
             )

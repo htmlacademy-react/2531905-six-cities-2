@@ -1,9 +1,11 @@
+import {useNavigate} from 'react-router-dom';
 import clsx from 'clsx';
 
 import {toggleFavorite} from '@/store/offers/api-actions';
 import {getIsUserAuthorized} from '@/store/user/selectors';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {useAppSelector} from '@/hooks/use-app-selector';
+import {AppRoute} from '@/constants';
 
 type CardBookmarkButtonProps = {
   isFavorite: boolean;
@@ -24,6 +26,7 @@ const sizes = {
 
 function CardBookmarkButton({isFavorite, type, offerId}: CardBookmarkButtonProps) {
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const bookmarkClass = clsx(`${type}__bookmark-button button`, isFavorite && `${type}__bookmark-button--active`);
   const {width, height} = sizes[type];
@@ -32,6 +35,8 @@ function CardBookmarkButton({isFavorite, type, offerId}: CardBookmarkButtonProps
     if (isUserAuthorized) {
       const status = Number(!isFavorite);
       dispatch(toggleFavorite({offerId, status}));
+    } else {
+      navigate(AppRoute.LoginPage);
     }
   };
 
