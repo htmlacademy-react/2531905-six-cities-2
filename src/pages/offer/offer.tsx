@@ -40,11 +40,13 @@ export function Offer(): JSX.Element {
   const reviews = allReviews.slice(0, MAX_REVIEWS_COUNT);
   const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
+  let starsWidth = 0;
   if (offer) {
     points.push({
       location: offer.location,
       id: offer.id,
     });
+    starsWidth = 100 / STARS_COUNT * Math.round(offer.rating);
   }
   const isFavorite = favorites.some((item) => item.id === offerId);
 
@@ -100,7 +102,7 @@ export function Offer(): JSX.Element {
                     </div>
                     <div className="offer__rating rating">
                       <div className="offer__stars rating__stars">
-                        <span style={{width: `${100 / STARS_COUNT * offer.rating}%`}}></span>
+                        <span style={{width: `${starsWidth}%`}}></span>
                         <span className="visually-hidden">Rating</span>
                       </div>
                       <span className="offer__rating-value rating__value">
@@ -172,7 +174,7 @@ export function Offer(): JSX.Element {
                         Reviews
                         {reviews.length > 0 && (
                           <>
-                            &middot; <span className="reviews__amount">{reviews.length}</span>
+                            &middot; <span className="reviews__amount">{allReviews.length}</span>
                           </>
                         )}
                       </h2>

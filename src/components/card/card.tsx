@@ -49,6 +49,7 @@ function Card({
     id: id,
   });
   const isFavorite = favorites.some((item) => item.id === id);
+  const starsWidth = 100 / STARS_COUNT * Math.round(rating);
 
   return (
     <article
@@ -72,7 +73,7 @@ function Card({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${100 / STARS_COUNT * rating}%`}}></span>
+            <span style={{width: `${starsWidth}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
