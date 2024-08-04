@@ -42,10 +42,12 @@ export const usersSlice = createSlice({
       })
       .addCase(login.rejected, (state, {payload}) => {
         const error = payload as LoginError;
-        state.loginResponseErrors = error.details.reduce((acc: string[], detail: ErrorDetail) => {
-          acc.push(detail.messages.join('; '));
-          return acc;
-        }, []);
+        if (error.details) {
+          state.loginResponseErrors = error.details.reduce((acc: string[], detail: ErrorDetail) => {
+            acc.push(detail.messages.join('; '));
+            return acc;
+          }, []);
+        }
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.requestStatus = RequestStatus.Failed;
       })

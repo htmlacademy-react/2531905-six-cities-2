@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {StatusCodes} from 'http-status-codes';
+import clsx from 'clsx';
 
 import CommentForm from '@/components/comment-form/comment-form';
 import Layout from '@/components/layout/layout';
@@ -39,6 +40,14 @@ export function Offer(): JSX.Element {
   const reviews = allReviews.slice(0, MAX_REVIEWS_COUNT);
   const nearbyOffers = getRandomArrayValues<OfferListItem>(allNearbyOffers, MAX_NEARBY_COUNT);
   const points = nearbyOffers.map(({ location, id }) => ({ location, id}));
+  let starsWidth = 0;
+  if (offer) {
+    points.push({
+      location: offer.location,
+      id: offer.id,
+    });
+    starsWidth = 100 / STARS_COUNT * Math.round(offer.rating);
+  }
   const isFavorite = favorites.some((item) => item.id === offerId);
 
   useEffect(() => {
@@ -74,7 +83,7 @@ export function Offer(): JSX.Element {
                 <div className="offer__gallery-container container">
                   <div className="offer__gallery">
                     {
-                      offer.images.map((image) => (
+                      offer.images.slice(0, 6).map((image) => (
                         <div key={image} className="offer__image-wrapper">
                           <img className="offer__image" src={image} alt="Photo studio"/>
                         </div>
@@ -93,7 +102,7 @@ export function Offer(): JSX.Element {
                     </div>
                     <div className="offer__rating rating">
                       <div className="offer__stars rating__stars">
-                        <span style={{width: `${100 / STARS_COUNT * offer.rating}%`}}></span>
+                        <span style={{width: `${starsWidth}%`}}></span>
                         <span className="visually-hidden">Rating</span>
                       </div>
                       <span className="offer__rating-value rating__value">
@@ -134,7 +143,7 @@ export function Offer(): JSX.Element {
                     <div className="offer__host">
                       <h2 className="offer__host-title">Meet the host</h2>
                       <div className="offer__host-user user">
-                        <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                        <div className={clsx('offer__avatar-wrapper user__avatar-wrapper', offer.host.isPro && 'offer__avatar-wrapper--pro')}>
                           <img
                             className="offer__avatar user__avatar"
                             src={offer.host.avatarUrl}
@@ -165,7 +174,7 @@ export function Offer(): JSX.Element {
                         Reviews
                         {reviews.length > 0 && (
                           <>
-                            &middot; <span className="reviews__amount">{reviews.length}</span>
+                            &middot; <span className="reviews__amount">{allReviews.length}</span>
                           </>
                         )}
                       </h2>
@@ -175,7 +184,12 @@ export function Offer(): JSX.Element {
                   </div>
                 </div>
                 <div className="container">
-                  <Map className="offer__map" points={points} city={offer.city}/>
+                  <Map
+                    className="offer__map"
+                    points={points}
+                    city={offer.city}
+                    selectedPoint={offer.id}
+                  />
                 </div>
               </section>
             )

@@ -13,6 +13,7 @@ function ReviewItem({review: {
   user,
 }}: ReviewItemProps) {
   const dateFormatted = formatDate(date);
+  const starsWidth = 100 / STARS_COUNT * Math.round(rating);
 
   return (
     <li className="reviews__item">
@@ -33,7 +34,7 @@ function ReviewItem({review: {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${100 / STARS_COUNT * rating}%`}}></span>
+            <span style={{width: `${starsWidth}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

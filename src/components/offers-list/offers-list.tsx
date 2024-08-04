@@ -19,14 +19,12 @@ type OffersListProps = {
 function OffersList({offers, city}: OffersListProps) {
   const [activeItem, setActiveItem] = useState('');
   const activeSort = useAppSelector(getActiveSort);
-  const sortedOffers = offers.sort(SORT_OPTIONS[activeSort]);
-  const points = sortedOffers.map(({ location, id }) => ({ location, id}));
 
   const handleMouseEnter = useCallback((id: string) => setActiveItem(id), []);
   const handleMouseLeave = useCallback(() => setActiveItem(''), []);
 
   const memoizedOffers = useMemo(() => (
-    sortedOffers.map((card: OfferListItem) => (
+    offers.sort(SORT_OPTIONS[activeSort]).map((card: OfferListItem) => (
       <Card
         key={card.id}
         className="cities"
@@ -35,7 +33,8 @@ function OffersList({offers, city}: OffersListProps) {
         onMouseLeave={handleMouseLeave}
       />
     ))
-  ), [handleMouseEnter, handleMouseLeave, sortedOffers]);
+  ), [offers, activeSort, handleMouseEnter, handleMouseLeave]);
+  const points = offers.map(({ location, id }) => ({ location, id}));
 
   if (!offers.length) {
     return <OffersListEmpty city={city} />;
@@ -46,7 +45,7 @@ function OffersList({offers, city}: OffersListProps) {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{offers.length} places to stay in {city.name}</b>
+          <b className="places__found">{offers.length} {offers.length > 1 ? 'places' : 'place'} to stay in {city.name}</b>
           <OffersListSort/>
           <div className="cities__places-list places__list">
             {

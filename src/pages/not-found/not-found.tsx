@@ -15,7 +15,7 @@ export function NotFound(): JSX.Element {
               <div className={classes.imageWrapper}>
                 <img className={classes.image} src="img/404.png" alt="Page not found"/>
               </div>
-              <h1>Requested page not found</h1>
+              <h1>404. Requested page not found</h1>
               <Link to={AppRoute.MainPage}>
                 <button className="form__submit button" type="submit">Go to Homepage</button>
               </Link>

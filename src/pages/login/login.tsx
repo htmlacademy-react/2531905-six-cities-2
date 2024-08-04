@@ -3,28 +3,36 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import Layout from '@/components/layout/layout';
 import LoginForm from '@/components/login-form/login-form';
-import {AppRoute, RequestStatus} from '@/constants';
-import {getRequestStatus, getIsUserAuthorized} from '@/store/user/selectors';
+import {AppRoute, CITIES} from '@/constants';
+import {getIsUserAuthorized} from '@/store/user/selectors';
+import {setCurrentCity} from '@/store/app/app';
 import {useAppSelector} from '@/hooks/use-app-selector';
+import {useAppDispatch} from '@/hooks/use-app-dispatch';
+import {getRandomArrayValues} from '@/utils';
 
 import classes from './login.module.css';
 
 function Login(): JSX.Element {
   const navigate = useNavigate();
-  const status = useAppSelector(getRequestStatus);
+  const dispatch = useAppDispatch();
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const randomCity = getRandomArrayValues(CITIES, 1)[0];
+
+  const handleCityClick = () => {
+    dispatch(setCurrentCity(randomCity));
+  };
 
   useEffect(() => {
-    if (status === RequestStatus.Success && isUserAuthorized) {
+    if (isUserAuthorized) {
       navigate(AppRoute.MainPage);
     }
-  }, [status, isUserAuthorized, navigate]);
+  }, [isUserAuthorized, navigate]);
 
   const sectionClass = `login ${classes.login}`;
 
   return (
     <div className="page page--gray page--login">
-      <Layout hideNav>
+      <Layout showNav={false}>
         <main className="page__main page__main--login">
           <div className="page__login-container container">
             <section className={sectionClass}>
@@ -33,8 +41,8 @@ function Login(): JSX.Element {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <Link to={AppRoute.MainPage} className="locations__item-link">
-                  <span>Paris</span>
+                <Link to={AppRoute.MainPage} className="locations__item-link" onClick={handleCityClick}>
+                  <span>{randomCity.name}</span>
                 </Link>
               </div>
             </section>

@@ -8,6 +8,9 @@ import {clearFavorites} from '@/store/offers/offers';
 
 import {AuthData, LoginError, UserData} from '@/types';
 import {ThunkOptions} from '@/types/state';
+type LogoutPayload = {
+  onSuccess?: () => void;
+}
 
 export const checkAuth = createAsyncThunk<UserData, undefined, ThunkOptions>(
   'user/checkAuth',
@@ -37,11 +40,12 @@ export const login = createAsyncThunk<UserData | LoginError, AuthData, ThunkOpti
   },
 );
 
-export const logout = createAsyncThunk<void, undefined, ThunkOptions>(
+export const logout = createAsyncThunk<void, LogoutPayload, ThunkOptions>(
   'user/logout',
-  async (_args, {dispatch, extra: api}) => {
+  async ({onSuccess}, {dispatch, extra: api}) => {
     await api.delete(ApiUrl.Logout);
     dispatch(clearFavorites());
     dropToken();
+    onSuccess?.();
   },
 );

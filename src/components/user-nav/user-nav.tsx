@@ -18,8 +18,12 @@ function UserNav() {
   const user = useAppSelector(getUser);
 
   const handleLogoutClick = () => {
-    dispatch(logout());
-    navigate(AppRoute.LoginPage);
+    const payload = {
+      onSuccess: () => {
+        navigate(AppRoute.MainPage);
+      }
+    };
+    dispatch(logout(payload));
   };
 
   if (!isUserAuthorized) {
