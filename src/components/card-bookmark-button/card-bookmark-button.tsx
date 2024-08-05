@@ -13,7 +13,7 @@ type CardBookmarkButtonProps = {
   type: 'place-card' | 'offer';
 }
 
-const sizes = {
+const SIZES = {
   'place-card': {
     width: 18,
     height: 19,
@@ -29,7 +29,7 @@ function CardBookmarkButton({isFavorite, type, offerId}: CardBookmarkButtonProps
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const bookmarkClass = clsx(`${type}__bookmark-button button`, isFavorite && `${type}__bookmark-button--active`);
-  const {width, height} = sizes[type];
+  const {width, height} = SIZES[type];
 
   const handleBookmarkClick = () => {
     if (isUserAuthorized) {
