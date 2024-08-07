@@ -71,7 +71,7 @@ export const offersSlice = createSlice({
       .addCase(loadOffer.rejected, (state, {payload}) => {
         const error = payload as AxiosError;
         state.offerStatus = RequestStatus.Failed;
-        if (error.response) {
+        if (error?.response) {
           state.errorCode = error.response.status;
         }
         state.currentOffer = null;
