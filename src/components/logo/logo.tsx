@@ -5,7 +5,7 @@ type LogoProps = {
   type: 'header' | 'footer';
 }
 
-const sizes = {
+const SIZES = {
   header: {
     width: 81,
     height: 41,
@@ -17,7 +17,7 @@ const sizes = {
 };
 
 function Logo({ type }: LogoProps): JSX.Element {
-  const {width, height} = sizes[type];
+  const {width, height} = SIZES[type];
 
   return (
     <Link to={AppRoute.MainPage} className={`${type}__logo-link`}>

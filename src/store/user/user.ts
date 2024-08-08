@@ -18,7 +18,7 @@ const initialState: UsersState = {
   user: null,
 };
 
-export const usersSlice = createSlice({
+export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
   reducers: {},
@@ -32,7 +32,6 @@ export const usersSlice = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(login.pending, (state) => {
-        state.authorizationStatus = AuthorizationStatus.Auth;
         state.requestStatus = RequestStatus.Pending;
       })
       .addCase(login.fulfilled, (state, {payload}) => {
@@ -42,7 +41,7 @@ export const usersSlice = createSlice({
       })
       .addCase(login.rejected, (state, {payload}) => {
         const error = payload as LoginError;
-        if (error.details) {
+        if (error?.details) {
           state.loginResponseErrors = error.details.reduce((acc: string[], detail: ErrorDetail) => {
             acc.push(detail.messages.join('; '));
             return acc;

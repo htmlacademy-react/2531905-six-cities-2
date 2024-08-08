@@ -10,7 +10,7 @@ import {getReviewRequestStatus} from '@/store/offers/selectors';
 
 import classes from './comment-form.module.css';
 
-const stars = {
+const STARS = {
   1: 'terribly',
   2: 'badly',
   3: 'not bad',
@@ -63,7 +63,7 @@ function CommentForm() {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
-          Object.entries(stars).reverse().map(([value, title]) => (
+          Object.entries(STARS).reverse().map(([value, title]) => (
             <Fragment key={value}>
               <input
                 className="form__rating-input visually-hidden"

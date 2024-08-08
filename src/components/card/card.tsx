@@ -14,7 +14,7 @@ type CardProps = {
   className: 'favorites' | 'cities' | 'near-places';
 }
 
-const sizes = {
+const SIZES = {
   cities: {
     width: 260,
     height: 200,
@@ -44,7 +44,7 @@ function Card({
   className,
 }: CardProps): JSX.Element {
   const favorites = useAppSelector(getFavoriteOffers);
-  const {width, height} = sizes[className];
+  const {width, height} = SIZES[className];
   const offerUrl = generatePath(AppRoute.OfferPage, {
     id: id,
   });
